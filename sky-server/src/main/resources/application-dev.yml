@@ -6,3 +6,18 @@ sky:
     database: sky_take_out
     username: root
     password: root
+
+#  qiniu:
+#    accesskey  : J3pNS50yeSYK1WBXxWiCModqfClb785_cbiP7H6D
+#    secretkey: h4BLgLHhNf3EOI6RnFzqBdDRmmGzRQrxKIKY4TQ8
+#    bucket: sky-take-out-0001
+#    domain: t8s8ujxp1.hn-bkt.clouddn.com
+#
+#
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  wechat:
+    appid: wxdb603027a4e1ee1d
+    secret: 7d9ca480c72b986c51c4187cbaf52b28

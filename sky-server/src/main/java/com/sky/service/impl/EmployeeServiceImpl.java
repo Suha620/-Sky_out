@@ -1,15 +1,20 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import lombok.Builder;
 import org.springframework.beans.BeanUtils;
@@ -18,8 +23,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.swing.text.Utilities;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Properties;
 
 @Builder
 @Service
@@ -27,6 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
+    @Autowired
+    private Properties pageHelperProperties;
 
     /**
      * 员工登录
@@ -68,11 +78,42 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes(StandardCharsets.UTF_8)));
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         employee.setStatus(StatusConstant.ENABLE);
-        employee.setCreateUser(10L);
-        employee.setCreateUser(10L);
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());
         employeeMapper.save(employee);
+    }
+
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+        Page<Employee> pageQuery = employeeMapper.pageQuery(employeePageQueryDTO);
+        long total = pageQuery.getTotal();
+        List<Employee> result = pageQuery.getResult();
+        return new PageResult(total,result);
+    }
+
+    @Override
+    public void enableDisable( Long id,Integer status) {
+        Employee employee = new Employee();
+        employee.setStatus(status);
+        employee.setId(id);
+        employeeMapper.update(employee);
+    }
+
+    @Override
+    public Employee getById(Integer id) {
+        return employeeMapper.getById(id);
+    }
+
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 
 }

@@ -12,7 +12,10 @@ spring:
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
-
+  redis:
+    port: ${sky.redis.port}
+    host: ${sky.redis.host}
+    database: ${sky.redis.database}
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
@@ -37,3 +40,26 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+
+    # 设置jwt签名加密时使用的秘钥
+    user-secret-key: itheima
+    # 设置jwt过期时间
+    user-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authentication
+
+  qiniu:
+    accessKey: ${sky.qiniu.accessKey}
+    secretKey: ${sky.qiniu.secretKey}
+    bucket: ${sky.qiniu.bucket}
+    domain: ${sky.qiniu.domain}
+
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}
+
+#  qiniu:
+#    access-key: J3pNS50yeSYK1WBXxWiCModqfClb785_cbiP7H6D
+#    secret-key: h4BLgLHhNf3EOI6RnFzqBdDRmmGzRQrxKIKY4TQ8
+#    bucket: sky-take-out-0001
+#    domain: t8s8ujxp1.hn-bkt.clouddn.com
