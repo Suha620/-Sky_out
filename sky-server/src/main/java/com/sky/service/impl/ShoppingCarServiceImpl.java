@@ -31,11 +31,12 @@ public class ShoppingCarServiceImpl implements ShoppingCarService {
         shoppingCart.setUserId(BaseContext.getCurrentId());
         List<ShoppingCart> list = shoppingCarMapper.list(shoppingCart);
         //判断
-        if(list!=null && list.size()>0){
+        if(list!=null && !list.isEmpty()){
             ShoppingCart cart = list.get(0);
             cart.setNumber(cart.getNumber()+1);
             shoppingCarMapper.updateBydId(cart);
         }else{
+            //判断当前是菜品id还是套餐id;
             if (shoppingCartDTO.getDishId()!=null) {
                 Long dishId = shoppingCartDTO.getDishId();
                 Dish dish = dishMapper.getById(Math.toIntExact(dishId));

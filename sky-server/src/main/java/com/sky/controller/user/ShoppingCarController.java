@@ -33,11 +33,13 @@ public class ShoppingCarController {
         List<ShoppingCart> list = shoppingCarService.list();
         return Result.success(list);
     }
+
     @DeleteMapping("/clean")
     public Result clean(){
         shoppingCarService.clean();
         return Result.success();
     }
+
     @PostMapping("/sub")
     public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
         shoppingCarService.sub(shoppingCartDTO);

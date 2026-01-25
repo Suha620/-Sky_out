@@ -21,9 +21,7 @@ public interface ShoppingCarMapper {
     void insert (ShoppingCart shoppingCart);
 
     @Delete("delete from shopping_cart where user_id=#{userId}")
-
     void clean(ShoppingCart shoppingCart);
-
 
     void cut(ShoppingCart shoppingCart);
 }

@@ -93,7 +93,7 @@ public class EmployeeController {
 
     @PostMapping("/status/{status}")
     @ApiOperation("启用/禁用账号")
-    public Result enablelDisable(@PathVariable Integer status, @RequestParam  Long id) {
+    public Result enableDisable(@PathVariable Integer status, @RequestParam  Long id) {
         employeeService.enableDisable(id,status);
         return Result.success();
     }
