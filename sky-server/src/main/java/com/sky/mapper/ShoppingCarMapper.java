@@ -23,5 +23,7 @@ public interface ShoppingCarMapper {
     @Delete("delete from shopping_cart where user_id=#{userId}")
     void clean(ShoppingCart shoppingCart);
 
+    void insertBatch(List<ShoppingCart> shoppingCartList);
+
     void cut(ShoppingCart shoppingCart);
 }

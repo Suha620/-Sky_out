@@ -11,4 +11,17 @@
             )
         </foreach>
     </insert>
+    <select id="top10" parameterType="java.util.Map" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name ,sum(od.number) as number from order_detail as od,orders as o
+        where o.id =od.order_id and o.status = 5
+        <if test="localDateTime_begin!=null ">
+        and order_time &gt; #{localDateTime_begin}
+        </if>
+        <if test="localDateTime_end !=null">
+        and order_time &lt; #{localDateTime_end}
+        </if>
+        group by name
+        order by number desc
+        limit 10
+        </select>
 </mapper>

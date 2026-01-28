@@ -44,11 +44,11 @@
     <select id="conditionSearch" resultType="com.sky.entity.Orders">
         select * from orders
         <where>
-            <if test="beginTime !=null and beginTime !=''">
-               and ordertime >=#{beginTime}
+            <if test="beginTime !=null ">
+               and order_time >= #{beginTime}
             </if>
-            <if test="endTime !=null and endTime !=''">
-                and end_time &lt;=#{endTime}
+            <if test="endTime !=null ">
+                and order_time &lt;= #{endTime}
             </if>
             <if test="number !=null and number !=''">
                 and number like concat ('%',#{number},'%')
@@ -60,5 +60,60 @@
                 and  status like concat ('%',#{status},'%')
             </if>
         </where>
+        order by estimated_delivery_time desc
     </select>
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="localDateTime_begin !=null">
+                and  delivery_time &gt; #{localDateTime_begin}
+            </if>
+            <if test="localDateTime_end !=null">
+                and delivery_time &lt; #{localDateTime_end}
+            </if>
+            <if test="status!=null">
+                and status =#{status}
+            </if>
+        </where>
+    </select>
+    <select id="top10" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="localDateTime_begin !=null">
+                and  delivery_time &gt;= #{localDateTime_begin}
+            </if>
+            <if test="localDateTime_end !=null">
+                and delivery_time &lt;= #{localDateTime_end}
+            </if>
+        </where>
+    </select>
+    <select id="toTalDayOrderCount" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="localDateTime_begin !=null">
+               and order_time &gt;= #{localDateTime_begin}
+            </if>
+            <if test="localDateTime_end !=null">
+                and order_time &lt;=  #{localDateTime_end}
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="begin != null">
+                and order_time &gt; #{begin}
+            </if>
+            <if test="end != null">
+                and order_time &lt; #{end}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
 </mapper>
